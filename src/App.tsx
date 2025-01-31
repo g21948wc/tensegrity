@@ -273,7 +273,7 @@ function Member({p,q,mwidth,col}:{p:any,q:any,mwidth:number,col:string}){
 
 function Strut({p,q}:{p:any,q:any}){
   return(
-    <Member p={p} q={q} mwidth={0.01} col="yellow"/>
+    <Member p={p} q={q} mwidth={0.01} col="pink"/>
   );
 }
 
