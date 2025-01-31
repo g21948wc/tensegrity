@@ -5,6 +5,7 @@ import {subtract, eigs, evaluate, number, identity, norm, pow,  matrix, multiply
 import { useControls } from 'leva';
 import * as THREE from 'three';
 import {useState } from 'react';
+import { useGesture } from "@use-gesture/react";
 
 extend({OrbitControls});
 declare global {
@@ -16,11 +17,15 @@ declare global {
 }
 
 function App() {
+  const bind = useGesture({
+    onDrag: ({ event }) => event.preventDefault(),
+    onPinch: ({ event }) => event.preventDefault(),
+  });
 
   return (
     <>
       <div style={{width:"200dvh",height:"100dvh"}}>
-      <Canvas>
+      <Canvas {...bind()} >
       <ambientLight intensity={0.5} />
       <directionalLight  position={[0, 0, 5]} />
       <Set/>
@@ -67,14 +72,13 @@ function Set(){
   const camwatch = ()=>{
     //@ts-ignore TS6133: 'rot' is declared but its value is never read.
     setRot(rot => camera?.rotation.toArray());
-    console.log(rot);
+    //console.log(rot);
   };
-  console.log(rot[3]);
   
   return (
     <>
       <mesh onPointerMove={() => camwatch()} onPointerUp={() => camwatch()}>
-      <PerspectiveCamera makeDefault  {...{ position: [0, 1.8, 5], fov: 42 }} />
+      <PerspectiveCamera makeDefault  {...{ position: [0, 1.8, 5], fov: 25 }} />
       <orbitControls args={ [ camera, gl.domElement ] }  />
       <Tensegrity p0={start} matrices={matrices} strut={strut} cable={cable} label={label} rot={rot}/>
       </mesh>
@@ -269,7 +273,7 @@ function Member({p,q,mwidth,col}:{p:any,q:any,mwidth:number,col:string}){
 
 function Strut({p,q}:{p:any,q:any}){
   return(
-    <Member p={p} q={q} mwidth={0.01} col="Orange"/>
+    <Member p={p} q={q} mwidth={0.01} col="yellow"/>
   );
 }
 
